@@ -1,0 +1,404 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f5f5f4;
+  --foreground: #1c1917;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/*
+  ซ่อน scrollbar ทั้งหมด — ยังเลื่อนหน้าได้ปกติ (ล้อ / ทัช / Space / ลูกศร)
+  หน้าแรกใช้ HomeScrollRail เป็นแถบความคืบหน้าแทน
+*/
+html {
+  scrollbar-gutter: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.hero-grid {
+  background-color: #f5f5f4;
+  background-image:
+    linear-gradient(to right, rgb(231 229 228 / 0.65) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(231 229 228 / 0.65) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Hero หน้าแรก — ตารางจางๆ บนพื้นขาว */
+.hero-bg-grid {
+  background-color: #fff;
+  background-image:
+    linear-gradient(to right, rgb(231 229 228 / 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(231 229 228 / 0.12) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* แสงวิ่งหลายทิศ — แนวนอน / แนวทแยง / แนวตั้ง / วนเบาๆ */
+@keyframes hero-wave-sweep {
+  0% {
+    transform: translate3d(-42%, 0, 0);
+  }
+  20% {
+    transform: translate3d(-18%, -10px, 0);
+  }
+  40% {
+    transform: translate3d(8%, 6px, 0);
+  }
+  60% {
+    transform: translate3d(32%, -8px, 0);
+  }
+  80% {
+    transform: translate3d(58%, 4px, 0);
+  }
+  100% {
+    transform: translate3d(78%, 0, 0);
+  }
+}
+
+@keyframes hero-wave-sweep-rev {
+  0% {
+    transform: translate3d(55%, -6px, 0);
+  }
+  35% {
+    transform: translate3d(12%, 14px, 0);
+  }
+  70% {
+    transform: translate3d(-28%, -4px, 0);
+  }
+  100% {
+    transform: translate3d(-62%, 8px, 0);
+  }
+}
+
+@keyframes hero-wave-diag-ne {
+  0% {
+    transform: translate3d(-35%, 28%, 0) rotate(-0.4deg);
+  }
+  33% {
+    transform: translate3d(8%, -6%, 0) rotate(0.2deg);
+  }
+  66% {
+    transform: translate3d(32%, -22%, 0) rotate(-0.2deg);
+  }
+  100% {
+    transform: translate3d(48%, -34%, 0) rotate(0deg);
+  }
+}
+
+@keyframes hero-wave-diag-sw {
+  0% {
+    transform: translate3d(40%, -38%, 0);
+  }
+  40% {
+    transform: translate3d(-12%, 8%, 0);
+  }
+  80% {
+    transform: translate3d(-45%, 32%, 0);
+  }
+  100% {
+    transform: translate3d(-52%, 38%, 0);
+  }
+}
+
+@keyframes hero-wave-vertical {
+  0% {
+    transform: translate3d(5%, 42%, 0);
+  }
+  25% {
+    transform: translate3d(-12%, 8%, 0);
+  }
+  50% {
+    transform: translate3d(18%, -28%, 0);
+  }
+  75% {
+    transform: translate3d(-6%, -18%, 0);
+  }
+  100% {
+    transform: translate3d(10%, -45%, 0);
+  }
+}
+
+.hero-wave-layer {
+  position: absolute;
+  /* ขนาดกำหนดที่ page (inset-x + top-20 + bottom-0) ให้ไม่ทับ navbar */
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-wave-band {
+  position: absolute;
+  top: -12%;
+  left: -70%;
+  width: 240%;
+  height: 125%;
+  background: linear-gradient(
+    92deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 36%,
+    rgba(255, 250, 245, 0.72) 47.5%,
+    rgba(200, 195, 190, 0.22) 50%,
+    rgba(255, 255, 255, 0.62) 52%,
+    rgba(245, 240, 235, 0.48) 54%,
+    transparent 60%,
+    transparent 100%
+  );
+  mix-blend-mode: soft-light;
+  will-change: transform;
+  animation: hero-wave-sweep 20s ease-in-out infinite alternate;
+}
+
+.hero-wave-band--b {
+  opacity: 0.72;
+  background: linear-gradient(
+    88deg,
+    transparent 0%,
+    rgba(231, 229, 228, 0) 38%,
+    rgba(255, 255, 255, 0.45) 49%,
+    rgba(168, 162, 158, 0.08) 50%,
+    rgba(255, 255, 255, 0.3) 51%,
+    transparent 58%,
+    transparent 100%
+  );
+  mix-blend-mode: overlay;
+  animation-duration: 26s;
+  animation-delay: -6s;
+}
+
+/* แนวทแยงขึ้น-ขวา (มุม ~132°) */
+.hero-wave-band--c {
+  top: -25%;
+  left: -55%;
+  width: 220%;
+  height: 150%;
+  opacity: 0.48;
+  background: linear-gradient(
+    132deg,
+    transparent 0%,
+    transparent 34%,
+    rgba(255, 252, 248, 0.55) 46%,
+    rgba(190, 185, 178, 0.18) 50%,
+    rgba(255, 255, 255, 0.42) 53%,
+    transparent 64%,
+    transparent 100%
+  );
+  mix-blend-mode: soft-light;
+  animation: hero-wave-diag-ne 31s ease-in-out infinite alternate;
+}
+
+/* แนวทแยงลง-ซ้าย (มุม ~38°) */
+.hero-wave-band--d {
+  top: -18%;
+  right: -75%;
+  left: auto;
+  width: 230%;
+  height: 135%;
+  opacity: 0.42;
+  background: linear-gradient(
+    38deg,
+    transparent 0%,
+    transparent 37%,
+    rgba(245, 242, 238, 0.5) 48%,
+    rgba(168, 162, 158, 0.12) 50%,
+    rgba(255, 255, 255, 0.38) 52%,
+    transparent 61%,
+    transparent 100%
+  );
+  mix-blend-mode: overlay;
+  animation: hero-wave-diag-sw 27s ease-in-out infinite alternate;
+}
+
+/* เน้นแนวตั้ง + เลื่อนซ้าย-ขวาเบาๆ */
+.hero-wave-band--e {
+  top: -35%;
+  left: -30%;
+  width: 180%;
+  height: 180%;
+  opacity: 0.38;
+  background: linear-gradient(
+    168deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(255, 255, 255, 0.45) 49%,
+    rgba(214, 211, 209, 0.2) 50.5%,
+    rgba(250, 247, 243, 0.4) 52%,
+    transparent 60%,
+    transparent 100%
+  );
+  mix-blend-mode: soft-light;
+  animation: hero-wave-vertical 24s ease-in-out infinite alternate;
+}
+
+/* วงรอบเบาๆ + สวนทางกับแนวนอนหลัก */
+.hero-wave-band--f {
+  top: -8%;
+  left: -50%;
+  width: 210%;
+  height: 118%;
+  opacity: 0.4;
+  background: linear-gradient(
+    72deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(255, 250, 245, 0.48) 47%,
+    rgba(200, 195, 188, 0.14) 50%,
+    rgba(255, 255, 255, 0.36) 53%,
+    transparent 62%,
+    transparent 100%
+  );
+  mix-blend-mode: overlay;
+  animation: hero-wave-sweep-rev 33s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-wave-band,
+  .hero-wave-band--b,
+  .hero-wave-band--c,
+  .hero-wave-band--d,
+  .hero-wave-band--e,
+  .hero-wave-band--f {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.marquee-left {
+  animation: scroll-left 40s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.marquee-right {
+  animation: scroll-right 40s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.marquee-left:hover,
+.marquee-right:hover {
+  animation-play-state: paused;
+}
+
+/* Mobile nav drawer — slide from right */
+@keyframes nav-drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.nav-drawer-panel {
+  animation: nav-drawer-in 0.28s ease-out forwards;
+}
+
+/* Floating dock — ข้อความ "ติดต่อเรา" ลอยเบาๆ */
+@keyframes contact-label-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.contact-float-label {
+  animation: contact-label-float 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-float-label {
+    animation: none;
+  }
+}
+
+/* Admin — Tiptap เนื้อหาบทความ */
+.article-tiptap .tiptap {
+  min-height: 280px;
+  outline: none;
+}
+
+.article-tiptap .tiptap p {
+  margin: 0.5em 0;
+}
+
+.article-tiptap .tiptap h2 {
+  margin: 0.75em 0 0.35em;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.article-tiptap .tiptap h3 {
+  margin: 0.65em 0 0.3em;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.article-tiptap .tiptap ul,
+.article-tiptap .tiptap ol {
+  margin: 0.5em 0;
+  padding-left: 1.25rem;
+}
+
+.article-tiptap .tiptap blockquote {
+  margin: 0.5em 0;
+  border-left: 3px solid rgb(214 211 209);
+  padding-left: 0.75rem;
+  color: rgb(87 83 78);
+}
+
+/* Tiptap Placeholder */
+.article-tiptap .tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: rgb(168 162 158);
+}
