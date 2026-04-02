@@ -47,7 +47,7 @@ export function ServiceDetailView({ service }: Props) {
           className="pointer-events-none absolute inset-0 hero-bg-grid opacity-60"
           aria-hidden
         />
-        <div className="relative mx-auto max-w-5xl px-4 pb-16 pt-28 sm:px-6 md:pb-20 md:pt-32 lg:px-8">
+        <div className="relative mx-auto max-w-5xl px-4 pb-16 pt-24 sm:px-6 md:pb-20 md:pt-28 lg:px-8">
           <nav
             className="mb-10 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium uppercase tracking-[0.18em] text-stone-400"
             aria-label="Breadcrumb"

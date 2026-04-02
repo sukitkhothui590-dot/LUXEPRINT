@@ -21,7 +21,7 @@ export function PageLayout({
   return (
     <div className="bg-white">
       <div
-        className={`mx-auto px-4 pb-32 pt-24 sm:px-6 sm:pb-40 sm:pt-28 lg:px-8 lg:pb-44 lg:pt-32 ${maxWidthClass} ${className ?? ""}`}
+        className={`mx-auto px-4 pb-32 pt-24 sm:px-6 sm:pb-40 sm:pt-24 lg:px-8 lg:pb-44 lg:pt-28 ${maxWidthClass} ${className ?? ""}`}
       >
         {children}
       </div>

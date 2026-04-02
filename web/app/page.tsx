@@ -55,12 +55,11 @@ export default function HomePage() {
         className="relative min-h-dvh overflow-x-clip bg-white"
       >
         <div
-          className="pointer-events-none absolute inset-x-0 top-20 bottom-0 z-0 hero-bg-grid"
+          className="pointer-events-none absolute inset-x-0 top-16 bottom-0 z-0 hero-bg-grid md:top-20"
           aria-hidden
         />
-        {/* เริ่มใต้ navbar (h-20) — กันคลื่น/ตารางไปทับแถบนำทาง */}
         <div
-          className="pointer-events-none absolute inset-x-0 top-20 bottom-0 z-[1] hero-wave-layer"
+          className="pointer-events-none absolute inset-x-0 top-16 bottom-0 z-[1] hero-wave-layer md:top-20"
           aria-hidden
         >
           <div className="hero-wave-band" />
@@ -71,14 +70,14 @@ export default function HomePage() {
           <div className="hero-wave-band hero-wave-band--f" />
         </div>
         <div
-          className="pointer-events-none absolute top-20 bottom-0 left-0 z-[15] hidden w-[5vw] md:block"
+          className="pointer-events-none absolute top-16 bottom-0 left-0 z-[15] hidden w-[5vw] md:block"
           aria-hidden
         >
           <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-stone-100/50 to-transparent" />
           <div className="absolute top-0 right-0 bottom-0 w-px bg-stone-300/60" />
         </div>
         <div
-          className="pointer-events-none absolute top-20 right-0 bottom-0 z-[15] hidden w-[5vw] md:block"
+          className="pointer-events-none absolute top-16 right-0 bottom-0 z-[15] hidden w-[5vw] md:top-20 md:block"
           aria-hidden
         >
           <div className="absolute inset-y-0 right-0 w-full bg-gradient-to-l from-stone-100/50 to-transparent" />
@@ -86,7 +85,7 @@ export default function HomePage() {
         </div>
 
         <div className="relative z-10 flex min-h-dvh flex-col">
-          <div className="h-20 shrink-0" aria-hidden />
+          <div className="h-16 shrink-0 md:h-20" aria-hidden />
           <div className="flex flex-1 flex-col justify-center px-4 pb-16 sm:px-6 lg:px-8">
             <div className="mx-auto w-full max-w-3xl text-center">
               <p className="mb-6 text-[11px] font-medium uppercase tracking-[0.22em] text-stone-400">

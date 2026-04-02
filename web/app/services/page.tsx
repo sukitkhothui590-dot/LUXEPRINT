@@ -17,7 +17,7 @@ export default function ServicesIndexPage() {
           className="pointer-events-none absolute inset-0 hero-bg-grid opacity-50"
           aria-hidden
         />
-        <div className="relative mx-auto max-w-6xl px-4 pb-16 pt-28 sm:px-6 md:pb-20 md:pt-32 lg:px-8">
+        <div className="relative mx-auto max-w-6xl px-4 pb-16 pt-24 sm:px-6 md:pb-20 md:pt-28 lg:px-8">
           <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.22em] text-stone-400">
             Services
           </p>

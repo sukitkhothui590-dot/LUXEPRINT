@@ -326,14 +326,23 @@ html::-webkit-scrollbar {
 @keyframes nav-drawer-in {
   from {
     transform: translateX(100%);
+    opacity: 0;
   }
   to {
     transform: translateX(0);
+    opacity: 1;
   }
 }
 
 .nav-drawer-panel {
-  animation: nav-drawer-in 0.28s ease-out forwards;
+  animation: nav-drawer-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* เปิดเมนูมือถือ — ซ่อน floating dock เพื่อไม่ให้ z-index ทับแผง / ลิงก์ */
+html[data-mobile-nav-open] .floating-dock {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* Floating dock — ข้อความ "ติดต่อเรา" ลอยเบาๆ */

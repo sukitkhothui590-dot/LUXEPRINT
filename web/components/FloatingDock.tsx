@@ -45,7 +45,7 @@ export function FloatingDock() {
   if (pathname.startsWith("/admin")) return null;
 
   return (
-    <div className="pointer-events-none fixed bottom-5 right-5 z-[60] flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
+    <div className="floating-dock pointer-events-none fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
       <div className="pointer-events-auto flex flex-col items-end gap-3">
         {/* Back to top */}
         <button
@@ -70,7 +70,7 @@ export function FloatingDock() {
             href={LINE_OA_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={`${fabBase} bg-[#06C755] text-white hover:brightness-105 ${focusRing}`}
+            className={`${fabBase} border border-stone-200/90 bg-white text-stone-900 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] hover:bg-stone-50 hover:text-stone-900 ${focusRing}`}
             aria-label="แชท LINE"
           >
             <MessageCircle className="h-6 w-6" strokeWidth={2} aria-hidden />
