@@ -1,10 +1,9 @@
 {
   "name": "luxeprint",
   "private": true,
-  "workspaces": ["web"],
   "scripts": {
-    "build": "npm run build -w web",
-    "dev": "npm run dev -w web",
-    "lint": "npm run lint -w web"
+    "build": "npm run build --prefix web",
+    "dev": "npm run dev --prefix web",
+    "lint": "npm run lint --prefix web"
   }
 }
