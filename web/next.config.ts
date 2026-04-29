@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
         pathname: "/**",
       },
+      /* รูปจาก Supabase Storage — ใช้ wildcard ไม่ผูกกับ env ตอนโหลด config (dev/build ต่างกันได้) */
+      {
+        protocol: "https",
+        hostname: "**.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
     ],
   },
 };

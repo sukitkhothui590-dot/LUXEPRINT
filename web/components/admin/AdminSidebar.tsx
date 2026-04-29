@@ -1,19 +1,28 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FileText, LayoutDashboard, LogOut, PlusCircle } from "lucide-react";
-import { ADMIN_SESSION_KEY } from "@/lib/mock-admin";
+import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
 
 const focus =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-900/30 focus-visible:ring-offset-2";
+const BRAND_NAME = "LabelCraft Studio";
+const BRAND_LOGO_SRC = "/logo/5b637035-febf-4480-a0f2-49f2c6b49bb8.png";
 
 export function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  function logout() {
-    sessionStorage.removeItem(ADMIN_SESSION_KEY);
+  async function logout() {
+    if (!isSupabaseConfigured()) {
+      router.push("/admin/login");
+      return;
+    }
+    const supabase = createBrowserSupabaseClient();
+    await supabase.auth.signOut();
     router.push("/admin/login");
     router.refresh();
   }
@@ -43,9 +52,16 @@ export function AdminSidebar() {
       <div className="border-b border-stone-100 px-4 py-5">
         <Link
           href="/admin/articles"
-          className={`block text-[11px] font-medium uppercase tracking-[0.2em] text-stone-400 ${focus} rounded-sm`}
+          className={`inline-flex items-center gap-2 rounded-sm text-[11px] font-medium tracking-[0.1em] text-stone-500 ${focus}`}
         >
-          LuxePrint
+          <Image
+            src={BRAND_LOGO_SRC}
+            alt={BRAND_NAME}
+            width={20}
+            height={20}
+            className="h-5 w-5 rounded object-cover"
+          />
+          {BRAND_NAME}
         </Link>
         <p className="mt-1 text-sm font-semibold text-stone-900">แอดมิน</p>
       </div>
@@ -63,7 +79,7 @@ export function AdminSidebar() {
         </Link>
         <button
           type="button"
-          onClick={logout}
+          onClick={() => void logout()}
           className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-stone-500 transition-colors hover:bg-red-50 hover:text-red-800 ${focus}`}
         >
           <LogOut className="h-4 w-4" aria-hidden />

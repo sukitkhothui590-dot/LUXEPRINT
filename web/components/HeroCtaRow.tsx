@@ -13,13 +13,17 @@ export function HeroCtaRow({ className }: Props) {
     >
       <Link
         href="/services"
-        className={btnPrimaryClassName("sm:min-w-[220px] sm:px-10")}
+        className={btnPrimaryClassName(
+          "whitespace-normal text-balance sm:min-w-[220px] sm:px-10",
+        )}
       >
         ดูบริการทั้งหมด
       </Link>
       <Link
         href="/contact"
-        className={btnSecondaryClassName("sm:min-w-[220px] sm:px-10")}
+        className={btnSecondaryClassName(
+          "whitespace-normal text-balance sm:min-w-[220px] sm:px-10",
+        )}
       >
         ปรึกษาประเมินราคา
       </Link>

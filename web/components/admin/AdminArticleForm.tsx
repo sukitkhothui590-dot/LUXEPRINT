@@ -2,16 +2,20 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { ArticleBodyEditor } from "@/components/admin/ArticleBodyEditor";
-import { type StoredAdminArticle } from "@/lib/admin-article-storage";
+import type { StoredAdminArticle } from "@/lib/article-types";
 import { MOCK_ARTICLE_CATEGORIES } from "@/lib/mock-admin";
 import { fileToResizedDataUrl } from "@/lib/resize-image";
 
 type Props = {
   mode: "create" | "edit";
   initial: StoredAdminArticle | null;
-  onSubmitSuccess: (article: StoredAdminArticle) => void;
+  onSubmitSuccess: (article: StoredAdminArticle) => void | Promise<void>;
 };
 export function AdminArticleForm({ mode, initial, onSubmitSuccess }: Props) {
+  /** id คงที่ต่อแบบฟอร์ม — ใช้อัปโหลดรูปในเนื้อหา + บันทึกครั้งแรก (โหมดสร้าง) */
+  const [draftArticleId] = useState(() => crypto.randomUUID());
+  const articleId = mode === "edit" && initial ? initial.id : draftArticleId;
+
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [category, setCategory] = useState<string>(MOCK_ARTICLE_CATEGORIES[0]);
@@ -22,6 +26,7 @@ export function AdminArticleForm({ mode, initial, onSubmitSuccess }: Props) {
   const [status, setStatus] = useState<"draft" | "published">("draft");
   const [editorKey, setEditorKey] = useState(0);
   const [message, setMessage] = useState("");
+  const [submitError, setSubmitError] = useState("");
   const [uploadError, setUploadError] = useState("");
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -37,6 +42,7 @@ export function AdminArticleForm({ mode, initial, onSubmitSuccess }: Props) {
     setBody(initial.bodyHtml);
     setStatus(initial.status);
     setEditorKey((k) => k + 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- reset เมื่อสลับบทความ (id)
   }, [initial?.id]);
 
   async function onPickFile(e: React.ChangeEvent<HTMLInputElement>) {
@@ -65,9 +71,10 @@ export function AdminArticleForm({ mode, initial, onSubmitSuccess }: Props) {
     if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setMessage("");
+    setSubmitError("");
     if (!title.trim()) {
       setMessage("กรุณากรอกหัวข้อ");
       return;
@@ -77,10 +84,7 @@ export function AdminArticleForm({ mode, initial, onSubmitSuccess }: Props) {
       return;
     }
 
-    const id =
-      mode === "edit" && initial
-        ? initial.id
-        : `draft-${Date.now()}`;
+    const id = articleId;
 
     const now = new Date().toISOString().slice(0, 10);
     const article: StoredAdminArticle = {
@@ -94,11 +98,26 @@ export function AdminArticleForm({ mode, initial, onSubmitSuccess }: Props) {
       status,
       coverImageUrl: coverImageUrl?.trim() || null,
       coverImageAlt: coverImageAlt.trim() || null,
+      publishedAt: initial?.publishedAt ?? null,
     };
 
-    onSubmitSuccess(article);
-    if (mode === "edit") {
-      setMessage("อัปเดตแล้ว");
+    try {
+      await onSubmitSuccess(article);
+      if (mode === "edit") {
+        setMessage("อัปเดตแล้ว");
+      }
+    } catch (err) {
+      const code =
+        err && typeof err === "object" && "code" in err
+          ? String((err as { code: unknown }).code)
+          : "";
+      const msg =
+        code === "23505"
+          ? "Slug นี้ถูกใช้แล้ว — เปลี่ยน Slug"
+          : err instanceof Error
+            ? err.message
+            : "บันทึกไม่สำเร็จ";
+      setSubmitError(msg);
     }
   }
 
@@ -201,8 +220,8 @@ export function AdminArticleForm({ mode, initial, onSubmitSuccess }: Props) {
           รูปปก
         </span>
         <p className="mb-2 text-xs text-stone-500">
-          อัปโหลดจากเครื่อง — ระบบจะย่อความกว้างไม่เกิน 1600px แล้วเก็บในเบราว์เซอร์
-          (localStorage)
+          อัปโหลดจากเครื่อง — ย่อความกว้างไม่เกิน 1600px แล้วอัปโหลดไป Supabase
+          Storage เมื่อบันทึก
         </p>
         <div className="flex flex-wrap items-center gap-3">
           <input
@@ -268,13 +287,23 @@ export function AdminArticleForm({ mode, initial, onSubmitSuccess }: Props) {
           เนื้อหา
         </span>
         <p className="mb-2 text-xs text-stone-500">
-          แก้ไขแบบ rich text — ตัวหนา หัวข้อ รายการ ฯลฯ
+          แก้ไขแบบ rich text — ตัวหนา หัวข้อ รายการ แทรกรูป ฯลฯ (รูปในเนื้อหาอัปโหลดไป Supabase)
         </p>
         <div aria-labelledby="article-body-label">
-          <ArticleBodyEditor key={editorKey} value={body} onChange={setBody} />
+          <ArticleBodyEditor
+            key={editorKey}
+            articleId={articleId}
+            value={body}
+            onChange={setBody}
+          />
         </div>
       </div>
 
+      {submitError ? (
+        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">
+          {submitError}
+        </p>
+      ) : null}
       {message ? (
         <p className="rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
           {message}

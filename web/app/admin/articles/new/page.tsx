@@ -22,8 +22,8 @@ export default function AdminNewArticlePage() {
         <AdminArticleForm
           mode="create"
           initial={null}
-          onSubmitSuccess={(article) => {
-            upsert(article);
+          onSubmitSuccess={async (article) => {
+            await upsert(article);
             router.push("/admin/articles");
           }}
         />
@@ -32,8 +32,7 @@ export default function AdminNewArticlePage() {
           <div className="rounded-lg border border-stone-200/90 bg-white p-5 shadow-sm">
             <h2 className="mb-2 text-sm font-medium text-stone-900">หมายเหตุ</h2>
             <p className="text-xs leading-relaxed text-stone-500">
-              รูปปกจะถูกย่อและเก็บเป็น JPEG ในเครื่องของคุณ ขนาด localStorage
-              จำกัด — ถ้าบันทึกไม่สำเร็จให้ลองรูปเล็กลง
+              รูปปกจะถูกย่อแล้วอัปโหลดไป Supabase เมื่อบันทึก — ถ้าใหญ่เกินให้ลองรูปเล็กลง
             </p>
           </div>
           <Link

@@ -19,9 +19,9 @@ export function PageLayout({
   className?: string;
 }) {
   return (
-    <div className="bg-white">
+    <div className="min-w-0 bg-white">
       <div
-        className={`mx-auto px-4 pb-32 pt-24 sm:px-6 sm:pb-40 sm:pt-24 lg:px-8 lg:pb-44 lg:pt-28 ${maxWidthClass} ${className ?? ""}`}
+        className={`mx-auto w-full min-w-0 px-4 pb-32 pt-24 sm:px-6 sm:pb-40 sm:pt-24 lg:px-8 lg:pb-44 lg:pt-28 ${maxWidthClass} ${className ?? ""}`}
       >
         {children}
       </div>
@@ -62,7 +62,7 @@ export function PageTitle({
 }) {
   return (
     <h1
-      className={`text-4xl font-normal leading-snug text-stone-900 md:text-5xl ${alignClass(align)} ${className ?? ""}`}
+      className={`break-words text-4xl font-normal leading-snug text-stone-900 md:text-5xl ${alignClass(align)} ${className ?? ""}`}
     >
       {children}
     </h1>
@@ -80,7 +80,7 @@ export function PageLead({
 }) {
   return (
     <p
-      className={`mb-12 max-w-prose font-light leading-relaxed text-stone-500 md:mb-16 ${align === "center" ? "mx-auto" : ""} ${alignClass(align)} ${className ?? ""}`}
+      className={`mb-12 max-w-prose break-words font-light leading-relaxed text-stone-500 md:mb-16 ${align === "center" ? "mx-auto" : ""} ${alignClass(align)} ${className ?? ""}`}
     >
       {children}
     </p>
@@ -99,7 +99,7 @@ export function PageSectionTitle({
 }) {
   return (
     <h2
-      className={`text-3xl font-normal text-stone-900 md:text-4xl ${alignClass(align)} ${className ?? ""}`}
+      className={`break-words text-3xl font-normal text-stone-900 md:text-4xl ${alignClass(align)} ${className ?? ""}`}
     >
       {children}
     </h2>

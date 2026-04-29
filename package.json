@@ -1,9 +1,14 @@
 {
   "name": "luxeprint",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "build": "npm run build --prefix web",
     "dev": "npm run dev --prefix web",
-    "lint": "npm run lint --prefix web"
+    "lint": "npm run lint --prefix web",
+    "vercel": "npx vercel",
+    "vercel:prod": "npx vercel --prod"
   }
 }

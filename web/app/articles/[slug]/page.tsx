@@ -2,26 +2,30 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
+import { ArticleViewCounter } from "@/components/ArticleViewCounter";
 import {
   PageEyebrow,
   PageLayout,
   PageTitle,
 } from "@/components/PageBlocks";
-import { getArticleBySlug, mockArticles } from "@/lib/mock-articles";
+import { getPublishedArticleDetail, getPublishedSlugs } from "@/lib/articles-public";
 import { notFound } from "next/navigation";
 
 type Props = { params: Promise<{ slug: string }> };
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
-  return mockArticles.map((a) => ({ slug: a.slug }));
+  const slugs = await getPublishedSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
-  if (!article) return { title: "ไม่พบบทความ | LuxePrint" };
+  const article = await getPublishedArticleDetail(slug);
+  if (!article) return { title: "ไม่พบบทความ | LabelCraft Studio" };
   return {
-    title: `${article.title} | LuxePrint`,
+    title: `${article.title} | LabelCraft Studio`,
     description: article.excerpt,
     openGraph: {
       title: article.title,
@@ -41,7 +45,7 @@ function formatDate(iso: string) {
 
 export default async function ArticleDetailPage({ params }: Props) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getPublishedArticleDetail(slug);
   if (!article) notFound();
 
   return (
@@ -55,10 +59,20 @@ export default async function ArticleDetailPage({ params }: Props) {
       </Link>
 
       <PageEyebrow align="left">Blog</PageEyebrow>
-      <p className="mb-4 text-sm text-stone-400">
-        {formatDate(article.publishedAt)}
-        <span className="mx-2 text-stone-300">·</span>
-        อ่านประมาณ {article.readTimeMin} นาที
+      <p className="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-stone-400">
+        <span>{formatDate(article.publishedAt)}</span>
+        <span className="text-stone-300" aria-hidden>
+          ·
+        </span>
+        <span>อ่านประมาณ {article.readTimeMin} นาที</span>
+        <span className="text-stone-300" aria-hidden>
+          ·
+        </span>
+        <ArticleViewCounter
+          slug={slug}
+          initialCount={article.viewCount}
+          className="text-stone-400"
+        />
       </p>
       <PageTitle align="left" className="mb-8 text-left">
         {article.title}
@@ -75,11 +89,10 @@ export default async function ArticleDetailPage({ params }: Props) {
         />
       </div>
 
-      <div className="space-y-6 text-left font-light leading-relaxed text-stone-600">
-        {article.body.map((p, i) => (
-          <p key={i}>{p}</p>
-        ))}
-      </div>
+      <div
+        className="article-html break-words text-left font-light leading-relaxed text-stone-600"
+        dangerouslySetInnerHTML={{ __html: article.bodyHtml }}
+      />
     </PageLayout>
   );
 }

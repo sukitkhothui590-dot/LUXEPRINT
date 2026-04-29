@@ -1,6 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { ClientMarquee } from "@/components/ClientMarquee";
+import { HeroAtmosphere } from "@/components/HeroAtmosphere";
 import { HeroCtaRow } from "@/components/HeroCtaRow";
 import { HomeScrollRail } from "@/components/HomeScrollRail";
 import { PageEyebrow, PageSectionTitle } from "@/components/PageBlocks";
@@ -26,23 +28,28 @@ const homeServices = [
     title: "รับพิมพ์ UV",
     desc: "นวัตกรรมงานพิมพ์ UV ลงบนวัสดุโดยตรง เช่น อะคริลิค ไม้ กระจก",
   },
+  {
+    slug: "brochure" as const,
+    title: "รับทำโบรชัวร์",
+    desc: "ใบปลิว โบรชัวร์ แผ่นพับ — พิมพ์คม สีตรงแบรนด์ สำหรับโปรโมชันและองค์กร",
+  },
 ];
 
 const featured = [
   {
     title: "Premium Box",
     subtitle: "งานพิมพ์กล่องบรรจุภัณฑ์ปั๊มฟอยล์",
-    gradient: "from-stone-300 via-stone-200 to-stone-100",
+    imageSrc: "/Featured%20Work/Gemini_Generated_Image_yr28hlyr28hlyr28.png",
   },
   {
     title: "Business Cards",
     subtitle: "นามบัตรกระดาษ Cotton 100%",
-    gradient: "from-stone-200 via-stone-100 to-stone-100",
+    imageSrc: "/Featured%20Work/Gemini_Generated_Image_73vci973vci973vc.png",
   },
   {
     title: "UV Printing",
     subtitle: "พิมพ์ UV ลงบนอะคริลิคใส",
-    gradient: "from-stone-300 via-stone-200 to-stone-50",
+    imageSrc: "/Featured%20Work/Gemini_Generated_Image_6c92vc6c92vc6c92.png",
   },
 ];
 
@@ -54,35 +61,7 @@ export default function HomePage() {
         id="section-hero"
         className="relative min-h-dvh overflow-x-clip bg-white"
       >
-        <div
-          className="pointer-events-none absolute inset-x-0 top-16 bottom-0 z-0 hero-bg-grid md:top-20"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-x-0 top-16 bottom-0 z-[1] hero-wave-layer md:top-20"
-          aria-hidden
-        >
-          <div className="hero-wave-band" />
-          <div className="hero-wave-band hero-wave-band--b" />
-          <div className="hero-wave-band hero-wave-band--c" />
-          <div className="hero-wave-band hero-wave-band--d" />
-          <div className="hero-wave-band hero-wave-band--e" />
-          <div className="hero-wave-band hero-wave-band--f" />
-        </div>
-        <div
-          className="pointer-events-none absolute top-16 bottom-0 left-0 z-[15] hidden w-[5vw] md:block"
-          aria-hidden
-        >
-          <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-stone-100/50 to-transparent" />
-          <div className="absolute top-0 right-0 bottom-0 w-px bg-stone-300/60" />
-        </div>
-        <div
-          className="pointer-events-none absolute top-16 right-0 bottom-0 z-[15] hidden w-[5vw] md:top-20 md:block"
-          aria-hidden
-        >
-          <div className="absolute inset-y-0 right-0 w-full bg-gradient-to-l from-stone-100/50 to-transparent" />
-          <div className="absolute top-0 bottom-0 left-0 w-px bg-stone-300/60" />
-        </div>
+        <HeroAtmosphere />
 
         <div className="relative z-10 flex min-h-dvh flex-col">
           <div className="h-16 shrink-0 md:h-20" aria-hidden />
@@ -91,7 +70,7 @@ export default function HomePage() {
               <p className="mb-6 text-[11px] font-medium uppercase tracking-[0.22em] text-stone-400">
                 Premium Inkjet & Printing Services
               </p>
-              <h1 className="mb-8 text-4xl font-normal leading-tight tracking-tight text-stone-900 md:text-5xl lg:text-6xl">
+              <h1 className="mb-8 break-words text-4xl font-normal leading-tight tracking-tight text-stone-900 md:text-5xl lg:text-6xl">
                 สร้างสรรค์งานพิมพ์ <br />
                 <span className="font-medium">เหนือระดับเพื่อแบรนด์คุณ</span>
               </h1>
@@ -114,7 +93,7 @@ export default function HomePage() {
             <span className="italic text-stone-600">ที่สะท้อนคุณค่า</span>
           </h2>
           <p className="mt-8 text-base font-light leading-relaxed text-stone-500">
-            ที่ LuxePrint เราไม่ได้เพียงแค่ผลิตสื่อสิ่งพิมพ์ แต่เราสร้างสรรค์
+            ที่ LabelCraft Studio เราไม่ได้เพียงแค่ผลิตสื่อสิ่งพิมพ์ แต่เราสร้างสรรค์
             &quot;มูลค่า&quot; ผ่านนวัตกรรมการพิมพ์ที่ทันสมัย ควบคู่ไปกับดีไซน์มินิมอลที่เรียบหรู
             ทุกชิ้นงานคือตัวแทนภาพลักษณ์ของแบรนด์คุณ
           </p>
@@ -229,21 +208,21 @@ export default function HomePage() {
             {featured.map((item) => (
               <div
                 key={item.title}
-                className={`group relative flex aspect-[4/3] flex-col justify-end overflow-hidden rounded-[10px] bg-gradient-to-br p-8 shadow-sm ring-1 ring-stone-200/60 ${item.gradient}`}
+                className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden rounded-[10px] bg-stone-100 p-8 shadow-sm ring-1 ring-stone-200/60"
               >
-                <div
-                  className="pointer-events-none absolute inset-0 opacity-[0.12]"
-                  style={{
-                    backgroundImage:
-                      "repeating-linear-gradient(-45deg, transparent, transparent 6px, currentColor 6px, currentColor 7px)",
-                  }}
-                  aria-hidden
+                <Image
+                  src={item.imageSrc}
+                  alt={item.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 />
-                <div className="relative">
-                  <span className="text-lg text-stone-900">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-black/0" />
+                <div className="relative min-w-0">
+                  <span className="text-lg text-white break-words">
                     {item.title}
                   </span>
-                  <p className="mt-1 text-sm font-light text-stone-600">
+                  <p className="mt-1 text-sm font-light text-stone-100">
                     {item.subtitle}
                   </p>
                 </div>

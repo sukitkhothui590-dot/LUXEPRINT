@@ -49,8 +49,8 @@ export default function AdminEditArticlePage() {
         <AdminArticleForm
           mode="edit"
           initial={article}
-          onSubmitSuccess={(updated) => {
-            upsert(updated);
+          onSubmitSuccess={async (updated) => {
+            await upsert(updated);
             router.push("/admin/articles");
           }}
         />

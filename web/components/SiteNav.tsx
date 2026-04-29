@@ -1,14 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { ChevronDown, MessageCircle, Phone } from "lucide-react";
 import { services } from "@/lib/services";
 
-const LINE_OA_URL = "https://line.me/R/ti/p/@LuxePrint";
+const LINE_OA_URL = "https://line.me/R/ti/p/@LabelCraftStudio";
 const PHONE_HREF = "tel:02-XXX-XXXX";
+const BRAND_NAME = "LabelCraft Studio";
+const BRAND_LOGO_SRC = "/logo/5b637035-febf-4480-a0f2-49f2c6b49bb8.png";
 
 const focusRing =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-900/80 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-100 rounded-sm";
@@ -23,9 +26,9 @@ function navLinkClass(active: boolean) {
 /** ลำดับเมนูมือถือ — ให้สอดคล้องลิงก์หลักเดิม */
 const MOBILE_NAV_LINKS = [
   { href: "/", label: "หน้าแรก" },
-  { href: "/articles", label: "บทความ" },
   { href: "/about", label: "เกี่ยวกับเรา" },
   { href: "/services", label: "บริการทั้งหมด" },
+  { href: "/articles", label: "บทความ" },
   { href: "/contact", label: "ติดต่อเรา" },
 ] as const;
 
@@ -47,14 +50,16 @@ export function SiteNav() {
   const isServices = pathname.startsWith("/services");
   const isContact = pathname === "/contact";
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    queueMicrotask(() => setMounted(true));
+  }, []);
 
   const setScroll = useCallback(() => {
     setScrolled(window.scrollY > 8);
   }, []);
 
   useEffect(() => {
-    setScroll();
+    queueMicrotask(setScroll);
     window.addEventListener("scroll", setScroll, { passive: true });
     return () => window.removeEventListener("scroll", setScroll);
   }, [setScroll]);
@@ -77,7 +82,9 @@ export function SiteNav() {
     };
   }, [open]);
 
-  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    queueMicrotask(() => setOpen(false));
+  }, [pathname]);
 
   if (pathname.startsWith("/admin")) return null;
 
@@ -92,9 +99,6 @@ export function SiteNav() {
     <>
       <Link href="/" className={navLinkClass(isHome)}>
         หน้าแรก
-      </Link>
-      <Link href="/articles" className={navLinkClass(isArticles)}>
-        บทความ
       </Link>
       <Link href="/about" className={navLinkClass(isAbout)}>
         เกี่ยวกับเรา
@@ -123,6 +127,9 @@ export function SiteNav() {
           </div>
         </div>
       </div>
+      <Link href="/articles" className={navLinkClass(isArticles)}>
+        บทความ
+      </Link>
       <Link href="/contact" className={navLinkClass(isContact)}>
         ติดต่อเรา
       </Link>
@@ -143,9 +150,16 @@ export function SiteNav() {
                 <Link
                   href="/"
                   onClick={() => setOpen(false)}
-                  className="text-sm font-semibold uppercase tracking-[0.16em] text-stone-900"
+                  className="flex items-center gap-2 text-sm font-semibold text-stone-900"
                 >
-                  LuxePrint
+                  <Image
+                    src={BRAND_LOGO_SRC}
+                    alt={BRAND_NAME}
+                    width={26}
+                    height={26}
+                    className="h-6 w-6 rounded object-cover"
+                  />
+                  <span>{BRAND_NAME}</span>
                 </Link>
                 <button
                   type="button"
@@ -260,14 +274,20 @@ export function SiteNav() {
           </div>
         ) : null}
 
-        <div className="relative z-50 mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 md:h-20 lg:px-8">
+        <div className="relative z-50 mx-auto flex h-16 max-w-7xl min-w-0 items-center justify-between gap-2 px-4 sm:px-6 md:h-20 lg:px-8">
           <Link
             href="/"
-            className={`relative z-20 shrink-0 transition-opacity duration-300 hover:opacity-90 ${focusRing}`}
+            className={`relative z-20 min-w-0 max-w-[min(220px,calc(100vw-5.5rem))] shrink transition-opacity duration-300 hover:opacity-90 md:max-w-none ${focusRing}`}
+            aria-label={BRAND_NAME}
           >
-            <span className="inline-block text-xl font-semibold uppercase tracking-[0.18em] text-stone-900 transition-[letter-spacing] duration-300 ease-out hover:tracking-[0.2em] md:text-[1.35rem]">
-              LuxePrint
-            </span>
+            <Image
+              src={BRAND_LOGO_SRC}
+              alt={BRAND_NAME}
+              width={360}
+              height={108}
+              className="h-14 w-auto max-h-14 object-contain object-left md:h-[5rem] md:max-h-none"
+              priority
+            />
           </Link>
 
           <div className="absolute left-1/2 z-10 hidden -translate-x-1/2 md:flex md:items-center md:gap-9 lg:gap-10">

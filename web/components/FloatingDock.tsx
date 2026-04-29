@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { ChevronUp, MessageCircle, Phone } from "lucide-react";
 
 /** แก้เป็น LINE OA จริงของร้าน */
-const LINE_OA_URL = "https://line.me/R/ti/p/@LuxePrint";
+const LINE_OA_URL = "https://line.me/R/ti/p/@LabelCraftStudio";
 const PHONE_HREF = "tel:02-XXX-XXXX";
 const PHONE_LABEL = "02-XXX-XXXX";
 
@@ -22,7 +22,7 @@ export function FloatingDock() {
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduceMotion(mq.matches);
+    queueMicrotask(() => setReduceMotion(mq.matches));
     const fn = () => setReduceMotion(mq.matches);
     mq.addEventListener("change", fn);
     return () => mq.removeEventListener("change", fn);
@@ -30,7 +30,7 @@ export function FloatingDock() {
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 280);
-    onScroll();
+    queueMicrotask(onScroll);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -45,7 +45,7 @@ export function FloatingDock() {
   if (pathname.startsWith("/admin")) return null;
 
   return (
-    <div className="floating-dock pointer-events-none fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
+    <div className="floating-dock pointer-events-none fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] right-[calc(1.25rem+env(safe-area-inset-right,0px))] z-40 flex flex-col items-end gap-3 sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))] sm:right-[calc(1.5rem+env(safe-area-inset-right,0px))]">
       <div className="pointer-events-auto flex flex-col items-end gap-3">
         {/* Back to top */}
         <button

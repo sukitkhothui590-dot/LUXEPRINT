@@ -5,7 +5,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { useAdminArticles } from "@/hooks/useAdminArticles";
 
 export default function AdminArticlesDashboardPage() {
-  const { articles, ready, remove } = useAdminArticles();
+  const { articles, ready, remove, error } = useAdminArticles();
 
   const published = articles.filter((a) => a.status === "published").length;
   const drafts = articles.filter((a) => a.status === "draft").length;
@@ -37,9 +37,15 @@ export default function AdminArticlesDashboardPage() {
         </p>
         <h1 className="text-2xl font-medium text-stone-900">แดชบอร์ด</h1>
         <p className="mt-2 text-sm text-stone-500">
-          เก็บในเบราว์เซอร์ (localStorage) — รีเซ็ตได้โดยล้างข้อมูลไซต์
+          ข้อมูลจาก Supabase — แก้ไขได้จากแดชบอร์ดนี้
         </p>
       </div>
+
+      {error ? (
+        <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+          {error}
+        </div>
+      ) : null}
 
       <div className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div className="rounded-lg border border-stone-200/90 bg-white p-5 shadow-sm">
@@ -85,6 +91,9 @@ export default function AdminArticlesDashboardPage() {
               <th className="w-20 px-4 py-3">รูป</th>
               <th className="px-4 py-3">หัวข้อ</th>
               <th className="hidden px-4 py-3 sm:table-cell">อัปเดต</th>
+              <th className="hidden px-4 py-3 text-right tabular-nums md:table-cell">
+                เข้าชม
+              </th>
               <th className="px-4 py-3">สถานะ</th>
               <th className="w-36 px-4 py-3 text-right">จัดการ</th>
             </tr>
@@ -126,6 +135,9 @@ export default function AdminArticlesDashboardPage() {
                 </td>
                 <td className="hidden px-4 py-3 text-stone-500 sm:table-cell">
                   {row.updatedAt}
+                </td>
+                <td className="hidden px-4 py-3 text-right text-stone-600 tabular-nums md:table-cell">
+                  {(row.viewCount ?? 0).toLocaleString("th-TH")}
                 </td>
                 <td className="px-4 py-3">
                   <span

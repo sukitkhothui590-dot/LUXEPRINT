@@ -1,19 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Eye } from "lucide-react";
 import {
   PageEyebrow,
   PageLayout,
   PageLead,
   PageTitle,
 } from "@/components/PageBlocks";
-import { mockArticles } from "@/lib/mock-articles";
+import { getPublishedArticlesList } from "@/lib/articles-public";
 
 export const metadata: Metadata = {
-  title: "บทความ | LuxePrint",
-  description: "เคล็ดลับ ข่าวสาร และความรู้ด้านงานพิมพ์จาก LuxePrint",
+  title: "บทความ | LabelCraft Studio",
+  description: "เคล็ดลับ ข่าวสาร และความรู้ด้านงานพิมพ์จาก LabelCraft Studio",
 };
+
+export const revalidate = 60;
 
 function formatDate(iso: string) {
   return new Date(iso + "T12:00:00").toLocaleDateString("th-TH", {
@@ -23,7 +25,9 @@ function formatDate(iso: string) {
   });
 }
 
-export default function ArticlesPage() {
+export default async function ArticlesPage() {
+  const list = await getPublishedArticlesList();
+
   return (
     <PageLayout>
       <div className="mb-20 text-center md:mb-24">
@@ -35,7 +39,7 @@ export default function ArticlesPage() {
       </div>
 
       <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        {mockArticles.map((a) => (
+        {list.map((a) => (
           <li key={a.slug}>
             <Link
               href={`/articles/${a.slug}`}
@@ -52,12 +56,23 @@ export default function ArticlesPage() {
               </div>
               <div className="flex flex-1 flex-col justify-between p-6 sm:p-8">
                 <div>
-                  <p className="mb-3 text-xs text-stone-400">
-                    {formatDate(a.publishedAt)}
-                    <span className="mx-2 text-stone-300">·</span>
-                    อ่าน {a.readTimeMin} นาที
+                  <p className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-stone-400">
+                    <span>{formatDate(a.publishedAt)}</span>
+                    <span className="text-stone-300" aria-hidden>
+                      ·
+                    </span>
+                    <span>อ่าน {a.readTimeMin} นาที</span>
+                    <span className="text-stone-300" aria-hidden>
+                      ·
+                    </span>
+                    <span className="inline-flex items-center gap-0.5 tabular-nums">
+                      <Eye className="h-3 w-3" aria-hidden />
+                      {a.viewCount.toLocaleString("th-TH")}
+                    </span>
                   </p>
-                  <h2 className="text-xl font-medium text-stone-900">{a.title}</h2>
+                  <h2 className="break-words text-xl font-medium text-stone-900">
+                    {a.title}
+                  </h2>
                   <p className="mt-3 line-clamp-3 text-sm font-light leading-relaxed text-stone-500">
                     {a.excerpt}
                   </p>

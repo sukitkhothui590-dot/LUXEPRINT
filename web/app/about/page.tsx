@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Play, Sparkles, Target, Users } from "lucide-react";
 import { PageEyebrow, PageSectionTitle } from "@/components/PageBlocks";
 
 export const metadata: Metadata = {
-  title: "เกี่ยวกับเรา | LuxePrint",
+  title: "เกี่ยวกับเรา | LabelCraft Studio",
   description: "ผู้เชี่ยวชาญด้านงานพิมพ์ที่แบรนด์ชั้นนำไว้วางใจ",
 };
 
@@ -27,18 +28,34 @@ function WaveToWhite() {
   );
 }
 
-function ImagePlaceholder({ label }: { label: string }) {
-  return (
-    <div
-      className="hero-grid relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-gradient-to-br from-stone-200 via-stone-100 to-stone-300 ring-1 ring-stone-200/80 md:rounded-[10px]"
-      aria-hidden
-    >
-      <span className="absolute inset-0 flex items-center justify-center text-xs font-medium tracking-wide text-stone-500/80">
-        {label}
-      </span>
-    </div>
-  );
-}
+/** รูปแถบด้านบน — แม็ปกับข้อความแต่ละช่อง (เปลี่ยนไฟล์ใน public ได้ตามนี้) */
+const ABOUT_STRIP = [
+  {
+    src: "/Featured%20Work/Gemini_Generated_Image_yr28hlyr28hlyr28.png",
+    alt: "งานพิมพ์ความละเอียดสูง คมชัด",
+    caption: "งานพิมพ์ความละเอียดสูง",
+  },
+  {
+    src: "/box/5793500bc73fd58eae8953cf0dca92bf.jpg",
+    alt: "บรรจุภัณฑ์และงานแบรนด์",
+    caption: "บรรจุภัณฑ์ & แบรนด์",
+  },
+  {
+    src: "/Featured%20Work/Gemini_Generated_Image_73vci973vci973vc.png",
+    alt: "งานพิมพ์เทคโนโลยีอิงค์เจ็ท",
+    caption: "เทคโนโลยีอิงค์เจ็ท",
+  },
+  {
+    src: "/Featured%20Work/Gemini_Generated_Image_6c92vc6c92vc6c92.png",
+    alt: "ผลงานพิมพ์พรีเมียม",
+    caption: "ผลงานพรีเมียม",
+  },
+] as const;
+
+const ABOUT_STORY_IMAGE = {
+  src: "/UV/2234bfc8e30d386fe8a9407b31db4395.jpg",
+  alt: "งานพิมพ์ UV พื้นผิวและความเงาของ LabelCraft Studio",
+} as const;
 
 export default function AboutPage() {
   return (
@@ -47,14 +64,14 @@ export default function AboutPage() {
       <section className="relative overflow-hidden bg-stone-100 pt-24 pb-28 md:pt-28 md:pb-36">
         <div className="relative z-10 mx-auto max-w-3xl px-4 pb-4 text-center sm:px-6 lg:px-8">
           <PageEyebrow>About Us</PageEyebrow>
-          <h1 className="text-4xl font-normal leading-snug text-stone-900 md:text-5xl">
+          <h1 className="break-words text-4xl font-normal leading-snug text-stone-900 md:text-5xl">
             ผู้เชี่ยวชาญด้านงานพิมพ์{" "}
             <span className="text-stone-600">
               ที่แบรนด์ชั้นนำไว้วางใจ
             </span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg font-light leading-relaxed text-stone-600 md:mt-8">
-            LuxePrint เริ่มต้นจากความหลงใหลในศิลปะแห่งการพิมพ์และการออกแบบ
+            LabelCraft Studio เริ่มต้นจากความหลงใหลในศิลปะแห่งการพิมพ์และการออกแบบ
             เราเชื่อว่า &quot;กระดาษและหมึก&quot;
             สามารถสื่อสารอัตลักษณ์ของแบรนด์ได้อย่างทรงพลัง
           </p>
@@ -65,10 +82,23 @@ export default function AboutPage() {
       {/* แถบรูป — พื้นขาวเต็ม ไม่ทับข้อความ hero */}
       <section className="relative z-10 bg-white px-4 pt-10 sm:px-6 sm:pt-12 lg:px-8">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 md:gap-5">
-          <ImagePlaceholder label="งานพิมพ์ความละเอียดสูง" />
-          <ImagePlaceholder label="บรรจุภัณฑ์ & แบรนด์" />
-          <ImagePlaceholder label="เทคโนโลยีอิงค์เจ็ท" />
-          <ImagePlaceholder label="ผลงานพรีเมียม" />
+          {ABOUT_STRIP.map((item) => (
+            <figure
+              key={item.src}
+              className="group relative aspect-[4/3] w-full overflow-hidden rounded-lg ring-1 ring-stone-200/80 md:rounded-[10px]"
+            >
+              <Image
+                src={item.src}
+                alt={item.alt}
+                fill
+                sizes="(max-width: 768px) 50vw, 25vw"
+                className="object-cover transition duration-500 ease-out group-hover:scale-[1.03]"
+              />
+              <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-900/70 via-stone-900/20 to-transparent px-2 py-2.5 text-center text-[10px] font-medium uppercase tracking-wider text-white/95 sm:text-[11px]">
+                {item.caption}
+              </figcaption>
+            </figure>
+          ))}
         </div>
       </section>
 
@@ -95,13 +125,21 @@ export default function AboutPage() {
       {/* Split — ซ้ายรูป + quote / ขวาข้อความ + blockquote */}
       <section className="border-t border-stone-100 bg-stone-50/50">
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 px-4 py-20 sm:px-6 md:gap-16 md:py-28 lg:grid-cols-2 lg:px-8">
-          <div className="relative">
-            <div
-              className="hero-grid relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-gradient-to-br from-stone-300 via-stone-200 to-stone-100 ring-1 ring-stone-200/80 md:rounded-[10px] lg:aspect-[5/4]"
-              aria-hidden
-            >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/95 text-stone-900 shadow-lg ring-1 ring-stone-200/80 backdrop-blur-sm">
+          <div className="relative pb-20 md:pb-0">
+            <div className="hero-grid relative aspect-[4/3] w-full overflow-hidden rounded-lg ring-1 ring-stone-200/80 md:rounded-[10px] lg:aspect-[5/4]">
+              <Image
+                src={ABOUT_STORY_IMAGE.src}
+                alt={ABOUT_STORY_IMAGE.alt}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+                priority
+              />
+              <div
+                className="absolute inset-0 flex items-center justify-center bg-stone-900/10"
+                aria-hidden
+              >
+                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 text-stone-900 shadow-lg ring-1 ring-stone-200/80 backdrop-blur-sm">
                   <Play className="ml-1 h-7 w-7" fill="currentColor" aria-hidden />
                 </span>
               </div>
@@ -111,12 +149,12 @@ export default function AboutPage() {
                 &quot;ความสมบูรณ์แบบอยู่ที่รายละเอียด — ทุกชิ้นงานคือตัวแทนของแบรนด์คุณ&quot;
               </p>
               <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.18em] text-stone-400">
-                LuxePrint
+                LabelCraft Studio
               </p>
             </div>
           </div>
 
-          <div className="pt-8 lg:pt-0">
+          <div className="min-w-0 pt-8 lg:pt-0">
             <PageSectionTitle align="left" className="mb-6 text-3xl md:text-4xl">
               เราพร้อมเสริมพลังผู้ประกอบการและแบรนด์
             </PageSectionTitle>

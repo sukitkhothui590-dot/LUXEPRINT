@@ -12,9 +12,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const service = getServiceBySlug(slug);
-  if (!service) return { title: "ไม่พบหน้า | LuxePrint" };
+  if (!service) return { title: "ไม่พบหน้า | LabelCraft Studio" };
   return {
-    title: `${service.name} | LuxePrint`,
+    title: `${service.name} | LabelCraft Studio`,
     description: `${service.tagline} ${service.desc}`,
   };
 }

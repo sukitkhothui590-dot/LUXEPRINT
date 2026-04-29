@@ -12,6 +12,18 @@ export type ServiceHighlight = {
 export type PrepItem = {
   title: string;
   body: string;
+  /**
+   * รูปประกอบข้อนี้ (path ใต้ public/) เช่น /prep/file-formats.webp
+   * แทนที่ไฟล์ใน public/prep/ ได้โดยใช้ชื่อเดิม หรือเปลี่ยนนามสกุลแล้วแก้ path ตรงนี้
+   */
+  prepImage?: string;
+  prepImageAlt?: string;
+};
+
+export type PortfolioSample = {
+  /** path ใต้ public เช่น /sticker/foo.webp */
+  src: string;
+  label: string;
 };
 
 export type Service = {
@@ -29,6 +41,8 @@ export type Service = {
   prices?: PriceRow[];
   /** ถ้าไม่ระบุ ใช้ defaultPrepItems */
   prepItems?: PrepItem[];
+  /** ถ้ามี แสดงภาพจริงในบล็อกผลงานตัวอย่าง */
+  portfolioSamples?: PortfolioSample[];
 };
 
 export const defaultPrices: PriceRow[] = [
@@ -42,18 +56,26 @@ export const defaultPrepItems: PrepItem[] = [
   {
     title: "ไฟล์ .AI / .PDF / .PSD",
     body: "แนะนำส่ง PDF (High Quality Print) เพื่อล็อกฟอนต์และเลย์เอาต์ให้ตรงกับที่ออกแบบ",
+    prepImage: "/Preparation/1%20(2).png",
+    prepImageAlt: "ไฟล์งานพิมพ์ PDF และรูปแบบไฟล์ที่เหมาะกับงานพิมพ์",
   },
   {
     title: "โหมดสี CMYK",
     body: "ตั้งค่าเป็น CMYK ตามงานพิมพ์ — ถ้าใช้ RGB สีอาจเพี้ยนเมื่อพิมพ์จริง",
+    prepImage: "/Preparation/2%20(2).png",
+    prepImageAlt: "โหมดสี CMYK สำหรับงานพิมพ์",
   },
   {
     title: "Outline ฟอนต์",
     body: "แปลงตัวอักษรเป็น outline หรือฝังฟอนต์ เพื่อไม่ให้ตัวหนังสือเด้งเมื่อเปิดไฟล์",
+    prepImage: "/Preparation/3%20(2).png",
+    prepImageAlt: "Outline ฟอนต์หรือเส้นตัวอักษรแปลงเป็นเส้น",
   },
   {
     title: "ความละเอียด 300 DPI",
     body: "โดยเฉพาะงานขนาดเล็กหรือมีรายละเอียดมาก เพื่อความคมชัดสูงสุด",
+    prepImage: "/Preparation/4%20(2).png",
+    prepImageAlt: "ความละเอียดไฟล์ 300 DPI สำหรับงานพิมพ์คมชัด",
   },
 ];
 
@@ -90,6 +112,11 @@ export const services: Service[] = [
       { size: "A3 (PVC กันน้ำ/กันรอย)", qty: "100 แผ่น", price: "2,800 ฿" },
       { size: "พิมพ์แบบตารางเมตร", qty: "10 ตร.ม.", price: "3,500 ฿" },
     ],
+    portfolioSamples: [
+      { src: "/sticker/Sticker1.webp", label: "สติ๊กเกอร์ดีไซน์แบรนด์" },
+      { src: "/sticker/product2.webp", label: "ฉลากสินค้า / Product label" },
+      { src: "/sticker/Sticker5.webp", label: "งานสีสดคมชัด" },
+    ],
   },
   {
     id: "card",
@@ -118,6 +145,11 @@ export const services: Service[] = [
       "อีเวนต์และงานแสดงสินค้า",
     ],
     turnaround: "ประมาณ 7–12 วันทำการ หลังยืนยันแบบ (รวมงานปั๊มพิเศษ)",
+    portfolioSamples: [
+      { src: "/card/card1.webp", label: "ตัวอย่างนามบัตร" },
+      { src: "/card/card3.webp", label: "ฟินิช & เนื้อกระดาษ" },
+      { src: "/card/card6.webp", label: "ดีไซน์แบรนด์" },
+    ],
   },
   {
     id: "bag",
@@ -146,6 +178,20 @@ export const services: Service[] = [
       "แคมเปญโปรโมชันระยะสั้น",
     ],
     turnaround: "ประมาณ 10–18 วันทำการ แล้วแต่ขนาดและจำนวน",
+    portfolioSamples: [
+      {
+        src: "/bag/c0699839c1dadcc38bd8745b8b4e0462.jpg",
+        label: "ถุงพิมพ์ลายแบรนด์",
+      },
+      {
+        src: "/bag/d4512f6a9f64fc050abdf1a7b0887fb7.jpg",
+        label: "ดีไซน์หูหิ้ว & โลโก้",
+      },
+      {
+        src: "/bag/dcff8f2c7a3188f1f6347d2d14513556.jpg",
+        label: "ชุดถุงหลากรูปแบบ",
+      },
+    ],
   },
   {
     id: "vinyl",
@@ -174,6 +220,20 @@ export const services: Service[] = [
       "สติกเกอร์ติดกระจกและผนังชั่วคราว",
     ],
     turnaround: "ประมาณ 5–12 วันทำการ แล้วแต่ขนาดและความซับซ้อน",
+    portfolioSamples: [
+      {
+        src: "/vinyl/31322a8b2f46d8ac973fb4363381cd1c.jpg",
+        label: "งานไวนิลหน้าร้าน",
+      },
+      {
+        src: "/vinyl/7b81ff1f71704618be3d1f87b82e69a9.jpg",
+        label: "แบนเนอร์ & สื่อขนาดใหญ่",
+      },
+      {
+        src: "/vinyl/blue-banner-1x1.jpg",
+        label: "ป้ายโปรโมชัน",
+      },
+    ],
   },
   {
     id: "uv",
@@ -202,6 +262,20 @@ export const services: Service[] = [
       "งานออกแบบภายในที่ต้องการมิติบนผิว",
     ],
     turnaround: "ประมาณ 7–14 วันทำการ ขึ้นกับขนาดและการทดสอบพื้นผิว",
+    portfolioSamples: [
+      {
+        src: "/UV/1593b0dd54bb45315352e75acd732ce9.jpg",
+        label: "งาน UV เน้นโลโก้",
+      },
+      {
+        src: "/UV/2234bfc8e30d386fe8a9407b31db4395.jpg",
+        label: "พื้นผิว & ความเงา",
+      },
+      {
+        src: "/UV/77589f86a186c6489ed20ad309c68f2b.jpg",
+        label: "ดีไซน์บนวัสดุแข็ง",
+      },
+    ],
   },
   {
     id: "box",
@@ -230,6 +304,20 @@ export const services: Service[] = [
       "สินค้าที่ต้องการความรู้สึกพรีเมียมตั้งแต่แพ็กเกจ",
     ],
     turnaround: "ประมาณ 12–21 วันทำการ แล้วแต่โมเดลกล่องและจำนวน",
+    portfolioSamples: [
+      {
+        src: "/box/44df3dee7b053614867def8479747494.jpg",
+        label: "กล่องบรรจุภัณฑ์แบรนด์",
+      },
+      {
+        src: "/box/5793500bc73fd58eae8953cf0dca92bf.jpg",
+        label: "ดีไซน์พื้นผิว & สี",
+      },
+      {
+        src: "/box/f7abfc9e8eca529f75efc64753b94d99.jpg",
+        label: "แพ็กเกจพรีเมียม",
+      },
+    ],
   },
   {
     id: "foam",
@@ -258,6 +346,20 @@ export const services: Service[] = [
       "ถ่ายภาพสินค้าและฉากหลังชั่วคราว",
     ],
     turnaround: "ประมาณ 4–9 วันทำการ",
+    portfolioSamples: [
+      {
+        src: "/foam/302dab9f73214f095a171b2f801fcfce.jpg",
+        label: "ป้ายโฟมบอร์ดงานอีเวนต์",
+      },
+      {
+        src: "/foam/39df8155ad6affca4dc8803c757d1b08.jpg",
+        label: "ดิสเพลย์ & แบ็กดรอป",
+      },
+      {
+        src: "/foam/7bf3a56f857a2f03f64218d4d53c2d9e.jpg",
+        label: "กราฟิกคม สีสด",
+      },
+    ],
   },
   {
     id: "plastwood",
@@ -286,8 +388,112 @@ export const services: Service[] = [
       "งานตกแต่งที่ต้องการพื้นผิวเรียบพิมพ์คม",
     ],
     turnaround: "ประมาณ 7–14 วันทำการ",
+    portfolioSamples: [
+      {
+        src: "/plastwood/03145f14bd87fcc59e4f1c1720424bb2.jpg",
+        label: "ป้ายพลาสวูดหน้าร้าน",
+      },
+      {
+        src: "/plastwood/33fe322ce144f524c06734cddbf2757a.jpg",
+        label: "งานพิมพ์คม สีตรงแบรนด์",
+      },
+      {
+        src: "/plastwood/gowkum.jpg",
+        label: "ติดตั้งกลางแจ้ง / ในร่ม",
+      },
+    ],
+  },
+  {
+    id: "brochure",
+    name: "รับทำโบรชัวร์",
+    desc: "ใบปลิว โบรชัวร์ แผ่นพับ — พิมพ์คม สีตรงแบรนด์ สำหรับโปรโมชันและองค์กร",
+    tagline: "สื่อสารแบรนด์ในมือลูกค้า — ตั้งแต่ใบปลิวใบเดียวถึงชุดแผ่นพับ",
+    intro:
+      "LuxePrint รับผลิตสื่อสิ่งพิมพ์แบบแบนและแบบพับ ครอบคลุมใบปลิว โบรชัวร์ และแผ่นพับหลายรูปแบบ เลือกขนาด กระดาษ การพับ และเคลือบให้เหมาะกับงบประมาณและการใช้งาน พร้อมตรวจไฟล์ มาร์จิน และสีก่อนพิมพ์จริง เพื่อให้งานออกมาอ่านง่ายและสะท้อนแบรนด์",
+    highlights: [
+      {
+        title: "ใบปลิว & โบรชัวร์",
+        body: "รองรับหลายขนาดตั้งแต่ A6 ถึง A4 — เหมาะทั้งแจกหน้างานและวางโชว์ที่เคาน์เตอร์",
+      },
+      {
+        title: "แผ่นพับหลายสัน",
+        body: "ออกแบบพับ 2 พับ 3 พับ หรือรูปแบบพิเศษตามเลย์เอาต์ — คำนวณรอยพับและโซนปลอดภัยให้ครบ",
+      },
+      {
+        title: "กระดาษ & เคลือบ",
+        body: "อาร์ตมัน มะลิ เคลือบด้าน/เงา หรือเคลือบด้านข้างเดียว — เลือกตามความรู้สึกที่ต้องการสื่อ",
+      },
+    ],
+    useCases: [
+      "แคมเปญโปรโมชัน แจกในงานอีเวนต์และหน้าร้าน",
+      "เมนู แผนที่ ข้อมูลสินค้าและบริการ",
+      "เอกสารองค์กร ประชาสัมพันธ์ และ onboarding",
+    ],
+    turnaround:
+      "ประมาณ 5–12 วันทำการ หลังยืนยันแบบ (แล้วแต่จำนวน การพับ และเคลือบ)",
+    prices: [
+      { size: "ใบปลิว A5 / A4 (อาร์ตมัน)", qty: "500 ใบ", price: "2,200 ฿" },
+      { size: "โบรชัวร์ 2 พับ", qty: "300 ชุด", price: "4,500 ฿" },
+      { size: "แผ่นพับ 3 พับ / 4 พับ", qty: "200 ชุด", price: "5,800 ฿" },
+    ],
+    portfolioSamples: [
+      {
+        src: "/Featured%20Work/Gemini_Generated_Image_yr28hlyr28hlyr28.png",
+        label: "โบรชัวร์ & สื่อแบรนด์",
+      },
+      {
+        src: "/Featured%20Work/Gemini_Generated_Image_73vci973vci973vc.png",
+        label: "ใบปลิว / แคตตาล็อกย่อ",
+      },
+      {
+        src: "/Featured%20Work/Gemini_Generated_Image_6c92vc6c92vc6c92.png",
+        label: "แผ่นพับ / งานพับ",
+      },
+    ],
   },
 ];
+
+const SERVICE_HERO_FALLBACK: Record<string, { src: string; alt: string }> = {
+  sticker: { src: "/sticker/Sticker1.webp", alt: "ตัวอย่างงานสติ๊กเกอร์" },
+  card: { src: "/card/card1.webp", alt: "ตัวอย่างนามบัตร" },
+  bag: {
+    src: "/bag/c0699839c1dadcc38bd8745b8b4e0462.jpg",
+    alt: "ตัวอย่างถุงพิมพ์ลาย",
+  },
+  vinyl: {
+    src: "/vinyl/31322a8b2f46d8ac973fb4363381cd1c.jpg",
+    alt: "ตัวอย่างงานไวนิล",
+  },
+  uv: { src: "/UV/1593b0dd54bb45315352e75acd732ce9.jpg", alt: "ตัวอย่างงาน UV" },
+  box: {
+    src: "/box/44df3dee7b053614867def8479747494.jpg",
+    alt: "ตัวอย่างกล่องบรรจุภัณฑ์",
+  },
+  foam: {
+    src: "/foam/7bf3a56f857a2f03f64218d4d53c2d9e.jpg",
+    alt: "ตัวอย่างโฟมบอร์ด",
+  },
+  plastwood: { src: "/plastwood/gowkum.jpg", alt: "ตัวอย่างงานพลาสวูด" },
+  brochure: {
+    src: "/Featured%20Work/Gemini_Generated_Image_yr28hlyr28hlyr28.png",
+    alt: "ตัวอย่างโบรชัวร์และใบปลิว",
+  },
+};
+
+/** รูป hero ขวามือ — ใช้ portfolio ใบแรก หรือ fallback ตามบริการ */
+export function getHeroVisualForService(service: Service): {
+  src: string;
+  alt: string;
+} {
+  const first = service.portfolioSamples?.[0];
+  if (first) return { src: first.src, alt: first.label };
+  const fb = SERVICE_HERO_FALLBACK[service.id];
+  if (fb) return fb;
+  return {
+    src: "/Featured%20Work/Gemini_Generated_Image_yr28hlyr28hlyr28.png",
+    alt: service.name,
+  };
+}
 
 export function getServiceBySlug(slug: string): Service | undefined {
   return services.find((s) => s.id === slug);

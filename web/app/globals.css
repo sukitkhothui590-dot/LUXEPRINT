@@ -403,6 +403,17 @@ html[data-mobile-nav-open] .floating-dock {
   color: rgb(87 83 78);
 }
 
+.article-tiptap .tiptap img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.375rem;
+  margin: 0.65em 0;
+}
+
+.article-tiptap .tiptap figure {
+  margin: 0.65em 0;
+}
+
 /* Tiptap Placeholder */
 .article-tiptap .tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
@@ -410,4 +421,38 @@ html[data-mobile-nav-open] .floating-dock {
   height: 0;
   pointer-events: none;
   color: rgb(168 162 158);
+}
+
+/* เนื้อหา HTML จากบทความ (หน้าบ้าน) */
+.article-html p {
+  margin-bottom: 1.25rem;
+}
+
+.article-html h2 {
+  margin: 1.5rem 0 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.article-html ul,
+.article-html ol {
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+}
+
+.article-html a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.article-html a:hover {
+  color: var(--foreground);
+}
+
+.article-html img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.375rem;
+  margin: 1rem 0;
 }

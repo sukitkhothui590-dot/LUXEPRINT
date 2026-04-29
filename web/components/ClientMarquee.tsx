@@ -1,66 +1,51 @@
+import Image from "next/image";
+
 type ClientMarqueeProps = {
   title: string;
   /** สำหรับ scroll spy หน้าแรก */
   id?: string;
 };
 
-const labels = [
-  ["Brand 01", "Studio 02", "Creative 03"],
-  ["Agency 04", "Fashion 05", "Global 06"],
-  ["Retail 07", "Luxury 08", "Vision 09"],
+const logos = [
+  "/Our%20Clients/1%20(1).webp",
+  "/Our%20Clients/2.webp",
+  "/Our%20Clients/3.webp",
+  "/Our%20Clients/4.webp",
+  "/Our%20Clients/5.webp",
+  "/Our%20Clients/6.webp",
+  "/Our%20Clients/Untitled-1.png",
+  "/Our%20Clients/8.webp",
 ] as const;
-
-const cardClass =
-  "flex h-28 w-48 shrink-0 items-center justify-center rounded-lg border border-stone-200/90 bg-stone-50 text-xl font-light uppercase tracking-widest text-stone-400 transition-colors hover:border-stone-400 hover:text-stone-800 sm:w-64 md:w-80";
 
 export function ClientMarquee({ title, id }: ClientMarqueeProps) {
   return (
     <section
       id={id}
-      className="overflow-hidden border-t border-stone-200/80 bg-white py-24"
+      className="overflow-hidden border-t border-stone-200/70 bg-stone-50/40 py-20"
     >
-      <div className="mx-auto mb-16 max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+      <div className="mx-auto mb-12 max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.22em] text-stone-400">
           Our Clients
         </p>
-        <h2 className="text-3xl font-normal text-stone-900">
+        <h2 className="break-words text-3xl font-normal text-stone-900">
           {title}
         </h2>
       </div>
-      <div className="relative flex w-full flex-col space-y-6">
-        <div className="w-full overflow-hidden">
-          <div className="marquee-left space-x-6 px-3">
-            {[...labels[0], ...labels[0]].map((label, i) => (
-              <div key={`l1-${i}`} className={cardClass}>
-                {label}
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="w-full overflow-hidden">
+      <div className="mx-auto grid min-w-0 max-w-6xl grid-cols-2 gap-6 px-4 sm:grid-cols-3 md:grid-cols-4 md:gap-8">
+        {logos.map((src, i) => (
           <div
-            className="marquee-right space-x-6 px-3"
-            style={{ animationDuration: "45s" }}
+            key={`client-${i}`}
+            className="mx-auto flex min-w-0 w-[70%] max-w-full items-center justify-center"
           >
-            {[...labels[1], ...labels[1]].map((label, i) => (
-              <div key={`r1-${i}`} className={cardClass}>
-                {label}
-              </div>
-            ))}
+            <Image
+              src={src}
+              alt=""
+              width={300}
+              height={300}
+              className="h-auto w-full rounded-lg object-contain"
+            />
           </div>
-        </div>
-        <div className="w-full overflow-hidden">
-          <div
-            className="marquee-left space-x-6 px-3"
-            style={{ animationDuration: "35s" }}
-          >
-            {[...labels[2], ...labels[2]].map((label, i) => (
-              <div key={`l2-${i}`} className={cardClass}>
-                {label}
-              </div>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
     </section>
   );

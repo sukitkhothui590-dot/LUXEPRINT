@@ -9,8 +9,8 @@ import {
 } from "@/components/PageBlocks";
 
 export const metadata: Metadata = {
-  title: "ติดต่อเรา | LuxePrint",
-  description: "ปรึกษางานพิมพ์ ขอใบเสนอราคา ติดต่อ LuxePrint",
+  title: "ติดต่อเรา | LabelCraft Studio",
+  description: "ปรึกษางานพิมพ์ ขอใบเสนอราคา ติดต่อ LabelCraft Studio",
 };
 
 export default function ContactPage() {
@@ -51,13 +51,20 @@ export default function ContactPage() {
               <h2 className="mb-2 text-[11px] font-medium uppercase tracking-[0.22em] text-stone-400">
                 ติดต่อด่วน
               </h2>
-              <p className="mb-2 flex items-center font-light text-stone-800">
-                <Phone className="mr-3 h-5 w-5 text-stone-400" aria-hidden />
-                02-XXX-XXXX, 081-XXX-XXXX
+              <p className="mb-2 flex items-start font-light text-stone-800">
+                <Phone
+                  className="mr-3 mt-0.5 h-5 w-5 shrink-0 text-stone-400"
+                  aria-hidden
+                />
+                <span className="min-w-0 break-words">
+                  02-XXX-XXXX, 081-XXX-XXXX
+                </span>
               </p>
               <p className="flex items-center font-light text-stone-800">
-                <Mail className="mr-3 h-5 w-5 text-stone-400" aria-hidden />
-                hello@luxeprint.com
+                <Mail className="mr-3 h-5 w-5 shrink-0 text-stone-400" aria-hidden />
+                <span className="min-w-0 break-all">
+                  hello@labelcraftstudio.com
+                </span>
               </p>
             </div>
             <div>
@@ -72,11 +79,15 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="flex h-64 items-center justify-center rounded-lg border border-stone-200 bg-stone-50">
-            <span className="flex items-center font-light text-stone-400">
-              <MapPin className="mr-2 h-5 w-5" aria-hidden />
-              [พื้นที่สำหรับใส่ Google Maps Embed]
-            </span>
+          <div className="min-h-56 min-w-0 overflow-hidden rounded-lg border border-stone-200 bg-stone-50 sm:min-h-64">
+            <iframe
+              title="แผนที่ LabelCraft Studio"
+              src="https://www.google.com/maps?q=123%20%E0%B8%96%E0%B8%99%E0%B8%99%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%B8%E0%B8%A1%E0%B8%A7%E0%B8%B4%E0%B8%97%20%E0%B9%81%E0%B8%82%E0%B8%A7%E0%B8%87%E0%B8%84%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%95%E0%B8%A2%20%E0%B9%80%E0%B8%82%E0%B8%95%E0%B8%A7%E0%B8%B1%E0%B8%92%E0%B8%99%E0%B8%B2%20%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A3%2010110&z=15&output=embed"
+              className="h-56 w-full min-w-0 border-0 sm:h-64"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
           </div>
         </div>
       </div>
